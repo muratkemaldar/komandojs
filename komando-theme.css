@@ -1,0 +1,48 @@
+.komando-display{
+  background: black;
+  color: #888;
+  font-family: monospace, sans-serif;
+  padding: 5px 10px;
+  min-height: 320px;
+}
+
+.komando-display.active{
+  color: white;
+}
+
+.komando-display p {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+}
+
+.komando-display p.robot {
+  color: limegreen;
+}
+
+.komando-display p.info {
+  color: magenta;
+}
+
+.komando-display p.error {
+  color: red;
+}
+
+.komando-display p.robot:before {
+  content: '> ';
+}
+
+.komando-input{
+  font-family: monospace, sans-serif;
+  background: #252525;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  color: white;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+  outline: 0;
+  padding: 10px 10px;
+  font-size: 1em;
+}

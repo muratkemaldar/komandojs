@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>komandojs demo page</title>
+	<script type="text/javascript" src="./komando-dev.js"></script>
+	<!-- komandojs specific styles -->
+	<link rel="stylesheet" type="text/css" href="./komando-theme.css">
+	<!-- page specific styles -->
+	<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+			font-family: sans-serif;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- komando block -->
+	<div id="komando-display" class="komando-display">
+		<span>Enter a command, soldier.</span>
+	</div>
+	<input class="komando-input" autofocus type="text" name="komando-input" id="komando-input" placeholder="type 'help' to see what you can do." />
+	
+	<!-- scripts, init called on bottom -->
+	<script type="text/javascript">
+		var commands = [
+			{
+				command: 'hello',
+				action: function(command, display){
+					display.print('hello to you');
+				}
+			},
+			{
+				command: ['hello salla'],
+				action: function(command, display){
+					display.print('hello murat');
+				}
+			}
+		];
+
+		// init komandojs
+		komando.init("komando-input", commands);
+	</script>
+</body>
+</html>
