@@ -5,26 +5,27 @@ command line in browser.
 ```html
 <script type="text/javascript">
 
-  // accepted commands
-  var commands = [
-    {
-      command: 'hello', // base command
-      action: function(command, display){
-        display.print('hello to you'); // prints a new line to display
+  komando.init({
+    input: document.getElementById('komando-input'), // required
+    display: document.getElementById('komando-display'), // optional
+    commands: [
+      {
+        command: "hello",
+        action: function(command, display, parameters){
+          display.print("hello to you");
+        }
+      },
+      {
+        command: 'goodbye',
+        action: function(command, display, parameters){
+          display.print("see you soon " + parameters.string);
+        }
       }
-    },
-    {
-      command: 'goodbye', 
-      action: function(command, display, parameters){
-        display.print('see you soon ' + parameters.string); 
-        // parameters.string; all which comes after goodbye (trimmed)
-        // parameters.array: all words split by ' '
-      }
+    ],
+    callback: function(){
+      console.log("komando initialized");
     }
-  ];
-
-  // init komandojs
-  komando.init('komando-input', commands);
+  });
 
 </script>
 ```

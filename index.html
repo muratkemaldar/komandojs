@@ -27,23 +27,27 @@
 	<!-- scripts, init called on bottom -->
 	<script type="text/javascript">
 
-		var commands = [
-			{
-				command: "hello",
-				action: function(command, display, parameters){
-					display.print("hello to you");
+		komando.init({
+			input: document.getElementById('komando-input'),
+			display: document.getElementById('komando-display'),
+			commands: [
+				{
+					command: "hello",
+					action: function(command, display, parameters){
+						display.print("hello to you");
+					}
+				},
+				{
+					command: 'goodbye',
+					action: function(command, display, parameters){
+						display.print("see you soon " + parameters.string);
+					}
 				}
-			},
-			{
-				command: 'goodbye',
-				action: function(command, display, parameters){
-					display.print("see you soon " + parameters.string);
-				}
+			],
+			callback: function(){
+				console.log("komando initialized");
 			}
-		];
-
-		// init komandojs
-		komando.init("komando-input", commands);
+		});
 
 	</script>
 </body>
