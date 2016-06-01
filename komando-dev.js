@@ -149,7 +149,21 @@ var komando = {
 		if (this.commandMap[command] !== undefined) {
 			this.commands[this.commandMap[command]].action(command, this.display);
 		} else {
-			this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+			var commandObj = void 0;
+			var parameters = {};
+			for (var c = 0; c < this.commands.length; c++) {
+				if (command.indexOf(this.commands[c].command) == 0) {
+					commandObj = this.commands[c];
+					parameters.string = command.slice(this.commands[c].command.length).trim();
+					parameters.array = parameters.string.split(' ');
+					commandObj.action(command, this.display, parameters);
+					console.log(parameters);
+					break;
+				}
+			}
+			if (commandObj === undefined) {
+				this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+			}
 		}
 
 		// put it in history

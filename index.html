@@ -26,17 +26,30 @@
 	
 	<!-- scripts, init called on bottom -->
 	<script type="text/javascript">
+
+		var xmlhttp = new XMLHttpRequest();
+		var url = "myTutorials.txt";
+
+		xmlhttp.onreadystatechange = function() {
+		    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		        var myArr = JSON.parse(xmlhttp.responseText);
+		        myFunction(myArr);
+		    }
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+
 		var commands = [
 			{
-				command: 'hello',
-				action: function(command, display){
-					display.print('hello to you');
+				command: "hello",
+				action: function(command, display, parameters){
+					display.print("hello to you");
 				}
 			},
 			{
-				command: ['hello salla'],
-				action: function(command, display){
-					display.print('hello murat');
+				command: 'goodbye',
+				action: function(command, display, parameters){
+					display.print("see you soon " + parameters.string);
 				}
 			}
 		];
