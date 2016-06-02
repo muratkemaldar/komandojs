@@ -23,6 +23,9 @@ var komando = {
 			var robot = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 			var lineClass = arguments.length <= 2 || arguments[2] === undefined ? 'default' : arguments[2];
 
+			if (this.panel === undefined) {
+				return;
+			}
 			var line = document.createElement('p');
 			line.className = 'line ' + lineClass + " " + (robot ? 'robot' : 'user');
 			line.innerHTML = content;
@@ -35,9 +38,6 @@ var komando = {
 
 	// options
 	options: {
-		displayLines: true,
-		autoAddLines: false,
-		panelId: 'komando-display',
 		focusInput: true,
 		defaultCommandNotFoundMessage: 'No comprende'
 	},
@@ -67,16 +67,11 @@ var komando = {
 		}
 	},
 
-	init: function init(inputId) {
-		var commands = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
+	init: function init(initParams) {
 		var _this = this;
 
-		var options = arguments.length <= 2 || arguments[2] === undefined ? this.options : arguments[2];
-		var callback = arguments[3];
-
 		// set props
-		this.commands = commands;
+		this.commands = initParams.commands;
 
 		//create command map
 		this.commandMap = {};
@@ -86,12 +81,11 @@ var komando = {
 		}
 
 		// init input
-		var input = document.getElementById(inputId);
-		if (input) {
-			this.input = input;
+		if (initParams.input) {
+			this.input = initParams.input;
 			this.input.addEventListener('keydown', function (event) {
-				if (event.key == 'Enter' && input.value) {
-					_this.handleCommand(input.value);
+				if (event.key == 'Enter' && _this.input.value) {
+					_this.handleCommand(_this.input.value);
 				}
 				if (event.key == 'ArrowUp') {
 					_this.history.navigate('up');
@@ -110,15 +104,16 @@ var komando = {
 		}
 
 		// init display
-		if (this.options.displayLines) {
-			this.display.panel = document.getElementById(this.options.panelId);
-			if (this.display.panel == undefined) {
+		if (initParams.display) {
+			this.display.panel = initParams.display;
+			if (this.display.panel === undefined) {
 				warning('display not found');
 			}
 		}
 
-		if (callback) {
-			callback();
+		// callback
+		if (initParams.callback) {
+			initParams.callback();
 		}
 
 		console.log(komando);
@@ -136,20 +131,54 @@ var komando = {
 
 		// check for help
 		if (command == 'help' || command == '/help') {
-			if (this.display.panel) {
-				for (var c = 0; c < this.commands.length; c++) {
-					this.display.print(this.commands[c].command, true, 'info');
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = this.commands[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var c = _step.value;
+
+					var text = c.command + (c.acceptsParameters ? " ___" : "");
+					this.display.print(text, true, 'info');
 				}
-				this.triggerEvent('handlecommand', { command: command });
-				return;
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
 			}
+
+			return;
 		}
 
-		// check commandMap, call action
-		if (this.commandMap[command] !== undefined) {
+		// core functionality
+		if (this.commandMap.hasOwnProperty(command)) {
+			// if the exact command is defined in commandMap, call the action
 			this.commands[this.commandMap[command]].action(command, this.display);
 		} else {
-			this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+			// if not, loop through commands and filter (to check if it has paramaters)
+			var commandObj = this.commands.filter(function (c) {
+				return command.split(" ").indexOf(c.command) === 0;
+			})[0];
+			if (commandObj) {
+				var params = {
+					string: command.slice(commandObj.command.length).trim(),
+					array: command.slice(commandObj.command.length).trim().split(' ')
+				};
+				commandObj.action(command, this.display, params);
+			} else {
+				// if all fails, display print error
+				this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+			}
 		}
 
 		// put it in history
@@ -158,6 +187,9 @@ var komando = {
 		// dispatch the event
 		this.triggerEvent('handlecommand', { command: command });
 	},
+
+
+	// internal event triggering
 	triggerEvent: function triggerEvent(eventName, komandoArgs) {
 		var e = document.createEvent('Event');
 		for (var arg in komandoArgs) {

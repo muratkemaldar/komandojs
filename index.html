@@ -3,46 +3,67 @@
 
 <head>
 	<title>komandojs demo page</title>
+
 	<script type="text/javascript" src="./komando-dev.js"></script>
+
+	<!-- page specific styles -->
+	<link rel="stylesheet" type="text/css" href="./normalize.css">
+	<link rel="stylesheet" type="text/css" href="./demo.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,300,300italic,400italic,500italic,500,700,700italic' rel='stylesheet' type='text/css'>
+
 	<!-- komandojs specific styles -->
 	<link rel="stylesheet" type="text/css" href="./komando-theme.css">
-	<!-- page specific styles -->
-	<style type="text/css">
-		body {
-			padding: 0;
-			margin: 0;
-			font-family: sans-serif;
-			font-size: 20px;
-		}
-	</style>
 </head>
-<body>
 
-	<!-- komando block -->
-	<div id="komando-display" class="komando-display">
-		<span>Enter a command, soldier.</span>
+<body>
+	<div class="wrapper">
+		<header>
+			<img src="komando.png" class="icon">
+			<h1>komandojs</h1>
+			<p>command line interface for custom commands in JS. useful? probably not.</p>
+		</header>
+
+		<!-- komando block -->
+		<div id="komando-display" class="komando-display">
+			<span>Enter a command, soldier.</span>
+		</div>
+		<input class="komando-input" autofocus type="text" name="komando-input" id="komando-input" placeholder="type 'help' to see what you can do." />
+
+		<h2>
+			usage
+		</h2>
+		<p>to do.</p>
 	</div>
-	<input class="komando-input" autofocus type="text" name="komando-input" id="komando-input" placeholder="type 'help' to see what you can do." />
-	
+
 	<!-- scripts, init called on bottom -->
 	<script type="text/javascript">
-		var commands = [
-			{
-				command: 'hello',
-				action: function(command, display){
-					display.print('hello to you');
+		komando.init({
+			input: document.getElementById('komando-input'),
+			display: document.getElementById('komando-display'),
+			commands: [
+				{
+					command: "hello",
+					action: function(command, display, parameters){
+						display.print("hello to you");
+					}
+				},
+				{
+					command: 'goodbye',
+					acceptsParameters: true, 
+					action: function(command, display, parameters){
+						if (parameters) {
+							display.print("see you soon " + parameters.string);
+						} else {
+							display.print("güle güle");
+						}
+						
+					}
 				}
-			},
-			{
-				command: ['hello salla'],
-				action: function(command, display){
-					display.print('hello murat');
-				}
+			],
+			callback: function(){
+				console.log("komando initialized");
 			}
-		];
-
-		// init komandojs
-		komando.init("komando-input", commands);
+		});
 	</script>
 </body>
 </html>

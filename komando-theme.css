@@ -1,8 +1,7 @@
 .komando-display{
   background: black;
   color: #888;
-  font-family: monospace, sans-serif;
-  padding: 5px 10px;
+  padding: 10px;
   min-height: 320px;
 }
 
@@ -33,8 +32,8 @@
 }
 
 .komando-input{
-  font-family: monospace, sans-serif;
-  background: #252525;
+  font-family: inherit;
+  background: #333;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   color: white;
