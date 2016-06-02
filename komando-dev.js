@@ -139,7 +139,8 @@ var komando = {
 				for (var _iterator = this.commands[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var c = _step.value;
 
-					this.display.print(c.command, true, 'info');
+					var text = c.command + (c.acceptsParameters ? " ___" : "");
+					this.display.print(text, true, 'info');
 				}
 			} catch (err) {
 				_didIteratorError = true;
@@ -155,6 +156,8 @@ var komando = {
 					}
 				}
 			}
+
+			return;
 		}
 
 		// core functionality
@@ -164,7 +167,7 @@ var komando = {
 		} else {
 			// if not, loop through commands and filter (to check if it has paramaters)
 			var commandObj = this.commands.filter(function (c) {
-				return command.indexOf(c.command) === 0;
+				return command.split(" ").indexOf(c.command) === 0;
 			})[0];
 			if (commandObj) {
 				var params = {

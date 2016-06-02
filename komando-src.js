@@ -124,8 +124,10 @@ const komando = {
 		// check for help
 		if (command == 'help' || command == '/help'){
 			for (let c of this.commands) {
-				this.display.print(c.command, true, 'info');
+				let text = c.command + (c.acceptsParameters ? " ___" : "");
+				this.display.print(text, true, 'info');
 			}
+			return;
 		}
 
 		// core functionality
@@ -134,7 +136,7 @@ const komando = {
 			this.commands[this.commandMap[command]].action(command, this.display);
 		} else {
 			// if not, loop through commands and filter (to check if it has paramaters)
-			let commandObj = this.commands.filter(c => command.indexOf(c.command) === 0)[0];
+			let commandObj = this.commands.filter(c => command.split(" ").indexOf(c.command) === 0)[0];
 			if (commandObj) {
 				let params = {
 					string: command.slice(commandObj.command.length).trim(),
