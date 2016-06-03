@@ -4,10 +4,9 @@ command line in browser.
 ## usage
 ```html
 <script type="text/javascript">
-
   komando.init({
-    input: document.getElementById('komando-input'), // required
-    display: document.getElementById('komando-display'), // optional
+    input: document.getElementById('komando-input'),
+    display: document.getElementById('komando-display'),
     commands: [
       {
         command: "hello",
@@ -17,8 +16,26 @@ command line in browser.
       },
       {
         command: 'goodbye',
+        parameterHint: '(name)',
         action: function(command, display, parameters){
-          display.print("see you soon " + parameters.string);
+          if (parameters) {
+            display.print("see you soon " + parameters.string);
+          } else {
+            display.print("güle güle");
+          }
+
+        }
+      },
+      {
+        command: 'music',
+        parameterHint: '(url)',
+        action: function(command, display, parameters){
+          if (parameters) {
+            display.print("opening", true, 'info');
+            window.open("//" + parameters.string, '_blank');
+          } else {
+            display.print('url missing', 'error');
+          }
         }
       }
     ],
@@ -26,6 +43,5 @@ command line in browser.
       console.log("komando initialized");
     }
   });
-
 </script>
 ```

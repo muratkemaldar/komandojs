@@ -20,8 +20,8 @@ var komando = {
 		panel: undefined,
 		mostRecentLine: undefined,
 		print: function print(content) {
-			var robot = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-			var lineClass = arguments.length <= 2 || arguments[2] === undefined ? 'default' : arguments[2];
+			var lineClass = arguments.length <= 1 || arguments[1] === undefined ? 'default' : arguments[1];
+			var robot = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
 			if (this.panel === undefined) {
 				return;
@@ -39,7 +39,7 @@ var komando = {
 	// options
 	options: {
 		focusInput: true,
-		defaultCommandNotFoundMessage: 'No comprende'
+		defaultCommandNotFoundMessage: '¯\\_(ツ)_/¯'
 	},
 
 	// state properties set on runtime
@@ -84,14 +84,17 @@ var komando = {
 		if (initParams.input) {
 			this.input = initParams.input;
 			this.input.addEventListener('keydown', function (event) {
-				if (event.key == 'Enter' && _this.input.value) {
+				if (event.keyCode == 13 && _this.input.value) {
+					//Enter
 					_this.handleCommand(_this.input.value);
 				}
-				if (event.key == 'ArrowUp') {
+				if (event.keyCode == 38) {
+					//ArrowUp
 					_this.history.navigate('up');
 					event.preventDefault();
 				}
-				if (event.key == 'ArrowDown') {
+				if (event.keyCode == 40) {
+					//ArrowDown
 					_this.history.navigate('down');
 					event.preventDefault();
 				}
@@ -126,7 +129,7 @@ var komando = {
 				this.display.panel.classList.add(['active']);
 				this.state.commandsEntered = true;
 			}
-			this.display.print(command, false);
+			this.display.print(command, 'default', false);
 		}
 
 		// check for help
@@ -139,8 +142,8 @@ var komando = {
 				for (var _iterator = this.commands[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var c = _step.value;
 
-					var text = c.command + (c.acceptsParameters ? " ___" : "");
-					this.display.print(text, true, 'info');
+					var text = c.command + (c.parameterHint ? " " + c.parameterHint : "");
+					this.display.print(text, 'info', true);
 				}
 			} catch (err) {
 				_didIteratorError = true;
@@ -177,7 +180,7 @@ var komando = {
 				commandObj.action(command, this.display, params);
 			} else {
 				// if all fails, display print error
-				this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+				this.display.print(this.options.defaultCommandNotFoundMessage, 'error', true);
 			}
 		}
 

@@ -49,14 +49,26 @@
 				},
 				{
 					command: 'goodbye',
-					acceptsParameters: true, 
+					parameterHint: '(name)',
 					action: function(command, display, parameters){
 						if (parameters) {
 							display.print("see you soon " + parameters.string);
 						} else {
 							display.print("güle güle");
 						}
-						
+
+					}
+				},
+				{
+					command: 'music',
+					parameterHint: '(url)',
+					action: function(command, display, parameters){
+						if (parameters) {
+							display.print("opening", true, 'info');
+							window.open("//" + parameters.string, '_blank');
+						} else {
+							display.print('url missing', 'error');
+						}
 					}
 				}
 			],

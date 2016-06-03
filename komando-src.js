@@ -17,7 +17,7 @@ const komando = {
 	display: {
 		panel: undefined,
 		mostRecentLine: undefined,
-		print(content, robot = true, lineClass = 'default') {
+		print(content, lineClass = 'default', robot = true) {
 			if (this.panel === undefined) { return; }
 			let line = document.createElement('p');
 			line.className = 'line ' + lineClass + " " + (robot ? 'robot' : 'user');
@@ -32,7 +32,7 @@ const komando = {
 	// options
 	options: {
 		focusInput: true,
-		defaultCommandNotFoundMessage: 'No comprende'
+		defaultCommandNotFoundMessage: '¯\\_(ツ)_/¯'
 	},
 
 	// state properties set on runtime
@@ -75,14 +75,14 @@ const komando = {
 		if (initParams.input) {
 			this.input = initParams.input;
 			this.input.addEventListener('keydown', event => {
-				if (event.key == 'Enter' && this.input.value) {
+				if (event.keyCode == 13 && this.input.value) { //Enter
 					this.handleCommand(this.input.value);
 				}
-				if (event.key == 'ArrowUp') {
+				if (event.keyCode == 38) { //ArrowUp
 					this.history.navigate('up');
 					event.preventDefault();
 				}
-				if (event.key == 'ArrowDown') {
+				if (event.keyCode == 40) { //ArrowDown
 					this.history.navigate('down');
 					event.preventDefault();
 				}
@@ -118,14 +118,14 @@ const komando = {
 				this.display.panel.classList.add(['active']);
 				this.state.commandsEntered = true;
 			}
-			this.display.print(command, false);
+			this.display.print(command, 'default', false);
 		}
 
 		// check for help
 		if (command == 'help' || command == '/help'){
 			for (let c of this.commands) {
-				let text = c.command + (c.acceptsParameters ? " ___" : "");
-				this.display.print(text, true, 'info');
+				let text = c.command + (c.parameterHint ? " " + c.parameterHint : "");
+				this.display.print(text, 'info', true);
 			}
 			return;
 		}
@@ -145,7 +145,7 @@ const komando = {
 				commandObj.action(command, this.display, params);
 			} else {
 				// if all fails, display print error
-				this.display.print(this.options.defaultCommandNotFoundMessage, true, 'error');
+				this.display.print(this.options.defaultCommandNotFoundMessage, 'error', true);
 			}
 		}
 
