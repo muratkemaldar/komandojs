@@ -27,7 +27,7 @@ command line in browser.
         }
       },
       {
-        command: 'music',
+        command: 'open',
         parameterHint: '(url)',
         action: function(command, display, parameters){
           if (parameters) {
