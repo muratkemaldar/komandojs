@@ -31,7 +31,7 @@ const komando = {
 
 	// options
 	options: {
-		focusInput: true,
+		focusInput: false,
 		defaultCommandNotFoundMessage: '¯\\_(ツ)_/¯'
 	},
 
@@ -156,7 +156,7 @@ const komando = {
 			if (commandObj) {
 				let paramString = command.slice(commandObj.command.length).trim();
 				let paramArray = paramString.split(" ");
-				commandObj.action(command, this.display, {paramString, paramArray});
+				commandObj.action(command, this.display, {string: paramString, array: paramArray});
 			} else {
 				// if all fails, display print error
 				this.display.print(this.options.defaultCommandNotFoundMessage, 'error');
