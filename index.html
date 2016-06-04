@@ -26,7 +26,7 @@
 		<div id="komando-display" class="komando-display">
 			<span>Enter a command, soldier.</span>
 		</div>
-		<input class="komando-input" autofocus type="text" name="komando-input" id="komando-input" placeholder="type 'help' to see what you can do." />
+		<input class="komando-input" type="text" name="komando-input" id="komando-input" placeholder="type 'help' to see what you can do." />
 
 		<h2>
 			usage
@@ -51,23 +51,18 @@
 					parameterHint: '(name)',
 					action: function(command, display, parameters){
 						if (parameters) {
+							console.log(parameters);
 							display.print("see you soon " + parameters.string);
 						} else {
 							display.print("güle güle");
 						}
 
 					}
-				},
-				{
-					command: 'lastcommand',
-					action: function(command, display, parameters){
-						display.mostRecentLine.style.color = "orange";
-					}
 				}
 			],
 			options: {
 				defaultCommandNotFoundMessage: 'No comprende',
-				focusInput: false
+				focusInput: true
 			},
 			callback: function(){
 				console.log("komando initialized");
