@@ -7,7 +7,6 @@
 	<script type="text/javascript" src="./komando-dev.js"></script>
 
 	<!-- page specific styles -->
-	<link rel="stylesheet" type="text/css" href="./normalize.css">
 	<link rel="stylesheet" type="text/css" href="./demo.css">
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,300,300italic,400italic,500italic,500,700,700italic' rel='stylesheet' type='text/css'>
 
@@ -60,18 +59,16 @@
 					}
 				},
 				{
-					command: 'open',
-					parameterHint: '(url)',
+					command: 'lastcommand',
 					action: function(command, display, parameters){
-						if (parameters) {
-							display.print("opening", true, 'info');
-							window.open("//" + parameters.string, '_blank');
-						} else {
-							display.print('url missing', 'error');
-						}
+						display.mostRecentLine.style.color = "orange";
 					}
 				}
 			],
+			options: {
+				defaultCommandNotFoundMessage: 'No comprende',
+				focusInput: false
+			},
 			callback: function(){
 				console.log("komando initialized");
 			}

@@ -47,12 +47,17 @@ const komando = {
 		commands: [],
 		add(command) {
 			this.commands.unshift(command);
+			this.cursor = undefined;
 			komando.triggerEvent('historyadd');
 		},
 		navigate(direction) {
-			console.log("navigation");
-			if (this.cursor === undefined && this.commands.length && direction == 'up') {
+			if (this.commands.length === 0) return;
+			if (this.cursor === undefined  && direction == 'up') {
 				this.cursor = 0;
+			} else if (direction == 'up' && this.cursor < this.commands.length - 1) {
+				this.cursor = this.cursor + 1;
+			} else if (direction == 'down' && this.cursor > 0) {
+				this.cursor = this.cursor - 1;
 			}
 			if (this.cursor !== undefined) {
 				komando.input.value = this.commands[this.cursor];
@@ -61,10 +66,19 @@ const komando = {
 	},
 
 	init(initParams) {
-		// set props
+		// set commands
 		this.commands = initParams.commands;
 
-		//create command map
+		// extend options
+		if (initParams.options) {
+			for (var option in initParams.options) {
+				if (this.options.hasOwnProperty(option)) {
+					this.options[option] = initParams.options[option];
+				}
+			}
+		}
+
+		// create command map
 		this.commandMap = {};
 		for (var cid = 0; cid < this.commands.length; cid++) {
 			this.commandMap[this.commands[cid].command] = cid;
@@ -101,7 +115,7 @@ const komando = {
 				warning('display not found');
 			}
 		}
-		
+
 		// callback
 		if (initParams.callback) {
 			initParams.callback();
@@ -111,6 +125,7 @@ const komando = {
 	},
 
 	handleCommand(command){
+
 		// first time handled
 		if (this.display.panel) {
 			if (!this.state.commandsEntered) {
@@ -127,6 +142,7 @@ const komando = {
 				let text = c.command + (c.parameterHint ? " " + c.parameterHint : "");
 				this.display.print(text, 'info', true);
 			}
+			this.triggerEvent('handlecommand', {command: command});
 			return;
 		}
 
@@ -138,14 +154,12 @@ const komando = {
 			// if not, loop through commands and filter (to check if it has paramaters)
 			let commandObj = this.commands.filter(c => command.split(" ").indexOf(c.command) === 0)[0];
 			if (commandObj) {
-				let params = {
-					string: command.slice(commandObj.command.length).trim(),
-					array: command.slice(commandObj.command.length).trim().split(' ')
-				}
-				commandObj.action(command, this.display, params);
+				let paramString = command.slice(commandObj.command.length).trim();
+				let paramArray = paramString.split(" ");
+				commandObj.action(command, this.display, {paramString, paramArray});
 			} else {
 				// if all fails, display print error
-				this.display.print(this.options.defaultCommandNotFoundMessage, 'error', true);
+				this.display.print(this.options.defaultCommandNotFoundMessage, 'error');
 			}
 		}
 

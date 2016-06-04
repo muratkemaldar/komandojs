@@ -54,12 +54,17 @@ var komando = {
 		commands: [],
 		add: function add(command) {
 			this.commands.unshift(command);
+			this.cursor = undefined;
 			komando.triggerEvent('historyadd');
 		},
 		navigate: function navigate(direction) {
-			console.log("navigation");
-			if (this.cursor === undefined && this.commands.length && direction == 'up') {
+			if (this.commands.length === 0) return;
+			if (this.cursor === undefined && direction == 'up') {
 				this.cursor = 0;
+			} else if (direction == 'up' && this.cursor < this.commands.length - 1) {
+				this.cursor = this.cursor + 1;
+			} else if (direction == 'down' && this.cursor > 0) {
+				this.cursor = this.cursor - 1;
 			}
 			if (this.cursor !== undefined) {
 				komando.input.value = this.commands[this.cursor];
@@ -70,10 +75,19 @@ var komando = {
 	init: function init(initParams) {
 		var _this = this;
 
-		// set props
+		// set commands
 		this.commands = initParams.commands;
 
-		//create command map
+		// extend options
+		if (initParams.options) {
+			for (var option in initParams.options) {
+				if (this.options.hasOwnProperty(option)) {
+					this.options[option] = initParams.options[option];
+				}
+			}
+		}
+
+		// create command map
 		this.commandMap = {};
 		for (var cid = 0; cid < this.commands.length; cid++) {
 			this.commandMap[this.commands[cid].command] = cid;
@@ -122,6 +136,7 @@ var komando = {
 		console.log(komando);
 	},
 	handleCommand: function handleCommand(command) {
+
 		// first time handled
 		if (this.display.panel) {
 			if (!this.state.commandsEntered) {
@@ -160,6 +175,7 @@ var komando = {
 				}
 			}
 
+			this.triggerEvent('handlecommand', { command: command });
 			return;
 		}
 
@@ -173,14 +189,12 @@ var komando = {
 				return command.split(" ").indexOf(c.command) === 0;
 			})[0];
 			if (commandObj) {
-				var params = {
-					string: command.slice(commandObj.command.length).trim(),
-					array: command.slice(commandObj.command.length).trim().split(' ')
-				};
-				commandObj.action(command, this.display, params);
+				var paramString = command.slice(commandObj.command.length).trim();
+				var paramArray = paramString.split(" ");
+				commandObj.action(command, this.display, { paramString: paramString, paramArray: paramArray });
 			} else {
 				// if all fails, display print error
-				this.display.print(this.options.defaultCommandNotFoundMessage, 'error', true);
+				this.display.print(this.options.defaultCommandNotFoundMessage, 'error');
 			}
 		}
 
