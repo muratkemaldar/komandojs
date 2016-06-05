@@ -139,6 +139,6 @@ gets called after a command is added to the history. <br/>
 
 ---
 
-## License
+## license
 
 komandojs is released under the [MIT License](LICENSE.md).
