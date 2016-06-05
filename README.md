@@ -112,20 +112,25 @@ callback method which will be called after komando has initialized.
 ---
 
 ## events
+this is how you listen to komando specific events:
+
 ```js
-  komando.on('handlecommand', function(e){
-    // gets called after a command has been handled.
-    // e.command = the base command string ("hello");
-  });
-
-  komando.on('displayprint', function(e){
-    // gets called after the display has printed a line
-    // e.line = the DOM element (paragraph) which was added
-    // e.robot = true if added by komando, false if it the user input
-  });
-
-  komando.on('historyadd', function(e){
-    // gets after a command is added to the history
-    // e.command = the command string which was added.
+  komando.on('[eventname]', function(e){
+    // e = event, which gets custom properties by komando. see below.
   });
 ```
+
+every event has event-specific properties attached with the event object passed to the function.
+
+#### handlecommand
+gets called after a command has been handled by komando (after action was called).
+`e.command`: the base command which was handled.
+
+#### displayprint
+gets called after the display has printed a line.
+`e.line`: the DOM object (p) which was added to the display.
+`e.robot`: true if added by komando, false if it the user input
+
+#### historyadd
+gets called after a command is added to the history.
+`e.command`: the base command which was handled.
