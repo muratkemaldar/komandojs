@@ -1,5 +1,7 @@
 # komandojs
 command line-like interface for custom commands only in browser.
+user can type "help" to see possible commands.
+user can use arrow keys to access command history.
 
 ## demo page
 http://muratkemaldar.github.io/komandojs/

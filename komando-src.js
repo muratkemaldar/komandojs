@@ -35,8 +35,7 @@ const komando = {
 	// state properties set on runtime
 	state: {
 		commandsEntered: false,
-		numberOfCommandsEntered: 0,
-		commandHistory: [],
+		numberOfCommandsEntered: 0
 	},
 
 	history: {
@@ -102,14 +101,17 @@ const komando = {
 				this.input.focus();
 			}
 		} else {
-			warning('input not found');
+			if (console) {
+				console.warn('input not found, you need a DOM element in komando.init({...}).')
+			}
 		}
 
 		// init display
 		if (initParams.display) {
 			this.display.panel = initParams.display;
-			if (this.display.panel === undefined) {
-				warning('display not found');
+		} else {
+			if (console) {
+				console.warn('display not found, you need a DOM element in komando.init({...}).')
 			}
 		}
 
@@ -118,7 +120,7 @@ const komando = {
 			initParams.callback();
 		}
 
-		console.log(komando);
+		// console.log(komando);
 	},
 
 	handleCommand(command){
@@ -183,10 +185,6 @@ const komando = {
 	on(event, callback) {
 		window.addEventListener(event, callback);
 	},
-}
-
-const warning = function(content){
-	console.warn(content);
 }
 
 window.komando = komando;
