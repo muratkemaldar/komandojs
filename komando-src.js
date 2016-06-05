@@ -1,8 +1,5 @@
 /**
-* komandoJS @muri5
-* TODO:
-* - extend options
-* - "contains" property
+* komandoJS @muratkemaldar
 */
 
 const komando = {

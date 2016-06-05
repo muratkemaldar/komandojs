@@ -1,12 +1,17 @@
 # komandojs
-command line in browser.
+command line-like interface for custom commands only in browser.
 
-## usage
+## demo page
+http://muratkemaldar.github.io/komandojs/
+
+## usage / setup
+Just call the init method of the window.komando object, and pass parameters.
+
 ```html
 <script type="text/javascript">
   komando.init({
-    input: document.getElementById('komando-input'),
-    display: document.getElementById('komando-display'),
+    input: document.getElementById('komando-input'), // required
+    display: document.getElementById('komando-display'), // optional
     commands: [
       {
         command: "hello",
@@ -25,23 +30,23 @@ command line in browser.
           }
 
         }
-      },
-      {
-        command: 'open',
-        parameterHint: '(url)',
-        action: function(command, display, parameters){
-          if (parameters) {
-            display.print("opening", true, 'info');
-            window.open("//" + parameters.string, '_blank');
-          } else {
-            display.print('url missing', 'error');
-          }
-        }
       }
     ],
+    options: {
+  		focusInput: false,
+  		defaultCommandNotFoundMessage: '¯\\_(ツ)_/¯'
+  	},
     callback: function(){
       console.log("komando initialized");
     }
   });
 </script>
 ```
+
+### options
+
+#### focusInput
+boolean, default false. true if you want to focus input on komando.init.
+
+#### defaultCommandNotFoundMessage
+string, default '¯\\_(ツ)_/¯'. message which is displayed when user enters a command unknown.
