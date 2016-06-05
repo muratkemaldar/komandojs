@@ -105,21 +105,23 @@ message which is displayed when user enters a command unknown.
 ### callback
 callback method which will be called after komando has initialized.
 
+---
+
 ## events
 ```js
-  komando.on('handlecommand', function(e)){
+  komando.on('handlecommand', function(e){
     // gets called after a command has been handled.
     // e.command = the base command string ("hello");
-  }
+  });
 
-  komando.on('displayprint'){
+  komando.on('displayprint', function(e){
     // gets called after the display has printed a line
     // e.line = the DOM element (paragraph) which was added
     // e.robot = true if added by komando, false if it the user input
-  }
+  });
 
-  komando.on('historyadd'){
+  komando.on('historyadd', function(e){
     // gets after a command is added to the history
     // e.command = the command string which was added.
-  }
+  });
 ```
