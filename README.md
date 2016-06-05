@@ -1,17 +1,18 @@
 <img src="komando.png" style="width: 4em; height: 4em; border-radius: 999px;">
 
 # komandojs
-command line-like interface for custom commands only in browser.
-user can type "help" to see possible commands.
-user can use arrow keys to access command history.
+command line-like interface for custom commands only in browser,
+where the user can type "help" to see possible commands.
+user can also use arrow keys to access command history.
 
 ## demo page
 http://muratkemaldar.github.io/komandojs/
 
 ## usage / setup
-Just call the init method of the window.komando object, and pass parameters.
-```html
-<script type="text/javascript">
+you should have two things: an input (where the user enters commands) and a div, or any kind of container where the lines are displayed.
+if you have that, just call the init method of the window.komando object, and pass some properties inside an object, like so:
+
+```js
 
   komando.init({
 
@@ -60,8 +61,9 @@ Just call the init method of the window.komando object, and pass parameters.
 
   });
 
-</script>
 ```
+
+## init({}) properties
 
 ### input
 the input DOM element, which the user uses to enter commands. required.
@@ -112,20 +114,31 @@ callback method which will be called after komando has initialized.
 ---
 
 ## events
+this is how you listen to komando specific events:
+
 ```js
-  komando.on('handlecommand', function(e){
-    // gets called after a command has been handled.
-    // e.command = the base command string ("hello");
-  });
-
-  komando.on('displayprint', function(e){
-    // gets called after the display has printed a line
-    // e.line = the DOM element (paragraph) which was added
-    // e.robot = true if added by komando, false if it the user input
-  });
-
-  komando.on('historyadd', function(e){
-    // gets after a command is added to the history
-    // e.command = the command string which was added.
+  komando.on('[eventname]', function(e){
+    // e = event, which gets custom properties by komando. see below.
   });
 ```
+
+every event has event-specific properties attached with the event object passed to the function.
+
+#### handlecommand
+gets called after a command has been handled by komando (after action was called). <br/>
+`e.command`: the base command which was handled.
+
+#### displayprint
+gets called after the display has printed a line. <br/>
+`e.line`: the DOM object (p) which was added to the display. <br/>
+`e.robot`: true if added by komando, false if it the user input
+
+#### historyadd
+gets called after a command is added to the history. <br/>
+`e.command`: the base command which was handled.
+
+---
+
+## license
+
+komandojs is released under the [MIT License](LICENSE.md).

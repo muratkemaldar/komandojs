@@ -1,5 +1,7 @@
 /**
-* komandoJS @muratkemaldar
+* komandoJS, by muratkemaldar
+* https://github.com/muratkemaldar/komandojs
+* version 1.0.0
 */
 
 const komando = {
@@ -15,12 +17,12 @@ const komando = {
 		panel: undefined,
 		mostRecentLine: undefined,
 		print(content, lineClass = 'default', robot = true) {
-			if (this.panel === undefined) { return; }
+			if (this.panel === undefined) return;
 			let line = document.createElement('p');
 			line.className = 'line ' + lineClass + " " + (robot ? 'robot' : 'user');
 			line.innerHTML = content;
-			komando.display.mostRecentLine = line;
-			komando.display.panel.appendChild(line);
+			this.panel.appendChild(line);
+			this.mostRecentLine = line;
 			komando.input.value = '';
 			komando.triggerEvent('displayprint', {line: line, robot: robot});
 		}
@@ -38,6 +40,7 @@ const komando = {
 		numberOfCommandsEntered: 0
 	},
 
+	// history, where user can use arrow keys to navigate
 	history: {
 		cursor: undefined,
 		commands: [],
@@ -120,11 +123,10 @@ const komando = {
 			initParams.callback();
 		}
 
-		// console.log(komando);
 	},
 
+	// called after input was entered
 	handleCommand(command){
-
 		// first time handled
 		if (this.display.panel) {
 			if (!this.state.commandsEntered) {
@@ -187,4 +189,5 @@ const komando = {
 	},
 }
 
+// attach to window
 window.komando = komando;
