@@ -1,17 +1,18 @@
 <img src="komando.png" style="width: 4em; height: 4em; border-radius: 999px;">
 
 # komandojs
-command line-like interface for custom commands only in browser.
-user can type "help" to see possible commands.
-user can use arrow keys to access command history.
+command line-like interface for custom commands only in browser,
+where the user can type "help" to see possible commands.
+user can also use arrow keys to access command history.
 
 ## demo page
 http://muratkemaldar.github.io/komandojs/
 
 ## usage / setup
-just call the init method of the window.komando object, and pass parameters.
-```html
-<script type="text/javascript">
+you should have two things: an input (where the user enters commands) and a div, or any kind of container where the lines are displayed.
+if you have that, just call the init method of the window.komando object, and pass some properties inside an object, like so:
+
+```js
 
   komando.init({
 
@@ -60,11 +61,10 @@ just call the init method of the window.komando object, and pass parameters.
 
   });
 
-</script>
 ```
 
 ## init({}) properties
-  
+
 ### input
 the input DOM element, which the user uses to enter commands. required.
 
@@ -136,3 +136,9 @@ gets called after the display has printed a line. <br/>
 #### historyadd
 gets called after a command is added to the history. <br/>
 `e.command`: the base command which was handled.
+
+---
+
+## License
+
+komandojs is released under the [MIT License](LICENSE.md).
