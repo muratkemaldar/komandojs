@@ -84,11 +84,11 @@ the action which will be called when user enters the corresponding command. this
 some options to change behavior of komando.
 these are defaults:
 
-**focusInput** <br/>
-*boolean, default false*. true if you want to focus input on komando.init.
+**focusInput** `boolean, default false` <br/>
+true if you want to focus input on komando.init().
 
-**defaultCommandNotFoundMessage** <br/>
-*string, default '¯\\_(ツ)_/¯'*. message which is displayed when user enters a command unknown.
+**defaultCommandNotFoundMessage** `string, default ¯\\_(ツ)_/¯` <br/>
+message which is displayed when user enters a command unknown.
 
 ### callback
 callback method which will be called after komando has initialized.
