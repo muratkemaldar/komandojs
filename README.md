@@ -54,29 +54,42 @@ Just call the init method of the window.komando object, and pass parameters.
 
 </script>
 ```
-These are the init properties you can pass:
+### komando.init() properties
+
 #### input
 the input DOM element, which the user uses to enter commands. required.
+
 #### display
 the DOM element for containing lines rendered by komando. will be cleaned after first command, so you can put hints in there if you want.
+
 #### commands
 an array of command objects, to which komando will react to.
 a command has following built-in properties:
+
 **command (string)**
 the base command. when the user enters this command, regardless if the command has follow up, the corresponding action will be called.
+
 **parameterHint (string)**
 the hint which will be shown after the command property when user types 'help'
+
 **action (function (command, display, parameters))**
 the action which will be called when user enters the corresponding command. this gets called by komando, and it gets following arguments:
-- **command (string)**: the command string of the command object
-- **display (object)**: an object with special methods and properties to react on a command (todo)
-- **parameters (object)**: object containing the words entered after the base command. parameters.string and parameters.array.
+
+* **command (string)**: the command string of the command object
+
+* **display (object)**: an object with special methods and properties to react on a command (todo)
+
+* **parameters (object)**: object containing the words entered after the base command. parameters.string and parameters.array.
+
 #### options
 some options to change behavior of komando.
 these are defaults:
+
 **focusInput**
 *boolean, default false*. true if you want to focus input on komando.init.
+
 **defaultCommandNotFoundMessage**
 *string, default '¯\\_(ツ)_/¯'*. message which is displayed when user enters a command unknown.
+
 #### callback
 callback method which will be called after komando has initialized.
