@@ -34,7 +34,6 @@
 		<p>to do.</p>
 	</div>
 
-	<!-- scripts, init called on bottom -->
 	<script type="text/javascript">
 		komando.init({
 			input: document.getElementById('komando-input'),
@@ -43,7 +42,7 @@
 				{
 					command: "hello",
 					action: function(command, display, parameters){
-						display.print("hello to you");
+						display.print("hello to you too!");
 					}
 				},
 				{
@@ -51,7 +50,6 @@
 					parameterHint: '(name)',
 					action: function(command, display, parameters){
 						if (parameters) {
-							console.log(parameters);
 							display.print("see you soon " + parameters.string);
 						} else {
 							display.print("güle güle");
