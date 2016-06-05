@@ -1,10 +1,7 @@
 'use strict';
 
 /**
-* komandoJS @muri5
-* TODO:
-* - extend options
-* - "contains" property
+* komandoJS @muratkemaldar
 */
 
 var komando = {
@@ -55,7 +52,7 @@ var komando = {
 		add: function add(command) {
 			this.commands.unshift(command);
 			this.cursor = undefined;
-			komando.triggerEvent('historyadd');
+			komando.triggerEvent('historyadd', { command: command });
 		},
 		navigate: function navigate(direction) {
 			if (this.commands.length === 0) return;

@@ -45,7 +45,7 @@ const komando = {
 		add(command) {
 			this.commands.unshift(command);
 			this.cursor = undefined;
-			komando.triggerEvent('historyadd');
+			komando.triggerEvent('historyadd', {command: command});
 		},
 		navigate(direction) {
 			if (this.commands.length === 0) return;

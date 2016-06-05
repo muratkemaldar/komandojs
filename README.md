@@ -20,7 +20,11 @@ Just call the init method of the window.komando object, and pass parameters.
     // array of custom commands
     commands: [
       {
+        // base command
         command: "hello",
+
+        // the action after the command has been entered
+        // see below for more details on the arguments
         action: function(command, display, parameters){
           display.print("hello to you");
         }
@@ -100,3 +104,22 @@ message which is displayed when user enters a command unknown.
 
 ### callback
 callback method which will be called after komando has initialized.
+
+## events
+```js
+  komando.on('handlecommand', function(e)){
+    // gets called after a command has been handled.
+    // e.command = the base command string ("hello");
+  }
+
+  komando.on('displayprint'){
+    // gets called after the display has printed a line
+    // e.line = the DOM element (paragraph) which was added
+    // e.robot = true if added by komando, false if it the user input
+  }
+
+  komando.on('historyadd'){
+    // gets after a command is added to the history
+    // e.command = the command string which was added.
+  }
+```
