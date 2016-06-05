@@ -8,9 +8,16 @@ http://muratkemaldar.github.io/komandojs/
 Just call the init method of the window.komando object, and pass parameters.
 ```html
 <script type="text/javascript">
+
   komando.init({
-    input: document.getElementById('komando-input'), // required
-    display: document.getElementById('komando-display'), // optional
+
+    // input for entering commands, required
+    input: document.getElementById('komando-input'),
+
+    // display for displaying user-input and reactions, optional, but recommended
+    display: document.getElementById('komando-display'),
+
+    // array of custom commands
     commands: [
       {
         command: "hello",
@@ -31,14 +38,20 @@ Just call the init method of the window.komando object, and pass parameters.
         }
       }
     ],
+
+    // options, these are the defaults
     options: {
   		focusInput: false,
   		defaultCommandNotFoundMessage: '¯\\_(ツ)_/¯'
   	},
+
+    // after init callback
     callback: function(){
       console.log("komando initialized");
     }
+
   });
+
 </script>
 ```
 These are the init properties you can pass:
@@ -49,21 +62,21 @@ the DOM element for containing lines rendered by komando. will be cleaned after 
 #### commands
 an array of command objects, to which komando will react to.
 a command has following built-in properties:
-##### command (string)
+**command (string)**
 the base command. when the user enters this command, regardless if the command has follow up, the corresponding action will be called.
-#### parameterHint (string)
+**parameterHint (string)**
 the hint which will be shown after the command property when user types 'help'
-##### action (function (command, display, parameters))
+**action (function (command, display, parameters))**
 the action which will be called when user enters the corresponding command. this gets called by komando, and it gets following arguments:
-- command (string) the command string of the command object
-- display (object) an object with special methods and properties to react on a command (todo)
-- parameters (object) object containing the words entered after the base command. parameters.string and parameters.array.
+- **command (string)**: the command string of the command object
+- **display (object)**: an object with special methods and properties to react on a command (todo)
+- **parameters (object)**: object containing the words entered after the base command. parameters.string and parameters.array.
 #### options
 some options to change behavior of komando.
 these are defaults:
-##### focusInput
-boolean, default false. true if you want to focus input on komando.init.
-##### defaultCommandNotFoundMessage
-string, default '¯\\_(ツ)_/¯'. message which is displayed when user enters a command unknown.
+**focusInput**
+*boolean, default false*. true if you want to focus input on komando.init.
+**defaultCommandNotFoundMessage**
+*string, default '¯\\_(ツ)_/¯'*. message which is displayed when user enters a command unknown.
 #### callback
 callback method which will be called after komando has initialized.
