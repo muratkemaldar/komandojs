@@ -1,3 +1,5 @@
+<img src="komando.png" style="width: 4em; height: 4em; border-radius: 999px;">
+
 # komandojs
 command line-like interface for custom commands only in browser.
 user can type "help" to see possible commands.
