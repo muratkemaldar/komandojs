@@ -65,20 +65,20 @@ the DOM element for containing lines rendered by komando. will be cleaned after 
 an array of command objects, to which komando will react to.
 a command has following built-in properties:
 
-**command (string)** <br/>
+**command** `string` <br/>
 the base command. when the user enters this command, regardless if the command has follow up, the corresponding action will be called.
 
-**parameterHint (string)** <br/>
+**parameterHint** `string` <br/>
 the hint which will be shown after the command property when user types 'help'
 
-**action `function (command, display, parameters)`** <br/>
+**action** `function (command, display, parameters)` <br/>
 the action which will be called when user enters the corresponding command. this gets called by komando, and it gets following arguments:
 
-* **command (string)** <br/> the command string of the command object
+* **command** `string` <br/> the command string of the command object
 
-* **display (object)** <br/> an object with special methods and properties to react on a command (todo)
+* **display** `object` <br/> an object with special methods and properties to react on a command (todo)
 
-* **parameters (object)** <br/> object containing the words entered after the base command. parameters.string and parameters.array.
+* **parameters** `object` <br/> object containing the words entered after the base command. contains a `string` and `array` property, first being everything after the accepted base command, the second being the same, but split by spaces.
 
 ### options
 some options to change behavior of komando.
