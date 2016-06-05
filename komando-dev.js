@@ -1,7 +1,9 @@
 'use strict';
 
 /**
-* komandoJS @muratkemaldar
+* komandoJS, by muratkemaldar
+* https://github.com/muratkemaldar/komandojs
+* version 1.0.0
 */
 
 var komando = {
@@ -20,14 +22,12 @@ var komando = {
 			var lineClass = arguments.length <= 1 || arguments[1] === undefined ? 'default' : arguments[1];
 			var robot = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
-			if (this.panel === undefined) {
-				return;
-			}
+			if (this.panel === undefined) return;
 			var line = document.createElement('p');
 			line.className = 'line ' + lineClass + " " + (robot ? 'robot' : 'user');
 			line.innerHTML = content;
-			komando.display.mostRecentLine = line;
-			komando.display.panel.appendChild(line);
+			this.panel.appendChild(line);
+			this.mostRecentLine = line;
 			komando.input.value = '';
 			komando.triggerEvent('displayprint', { line: line, robot: robot });
 		}
@@ -45,6 +45,7 @@ var komando = {
 		numberOfCommandsEntered: 0
 	},
 
+	// history, where user can use arrow keys to navigate
 	history: {
 		cursor: undefined,
 		commands: [],
@@ -131,11 +132,11 @@ var komando = {
 		if (initParams.callback) {
 			initParams.callback();
 		}
-
-		// console.log(komando);
 	},
-	handleCommand: function handleCommand(command) {
 
+
+	// called after input was entered
+	handleCommand: function handleCommand(command) {
 		// first time handled
 		if (this.display.panel) {
 			if (!this.state.commandsEntered) {
@@ -224,4 +225,5 @@ var komando = {
 	}
 };
 
+// attach to window
 window.komando = komando;
