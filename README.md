@@ -9,7 +9,7 @@ user can use arrow keys to access command history.
 http://muratkemaldar.github.io/komandojs/
 
 ## usage / setup
-Just call the init method of the window.komando object, and pass parameters.
+just call the init method of the window.komando object, and pass parameters.
 ```html
 <script type="text/javascript">
 
@@ -63,6 +63,8 @@ Just call the init method of the window.komando object, and pass parameters.
 </script>
 ```
 
+## init({}) properties
+  
 ### input
 the input DOM element, which the user uses to enter commands. required.
 
@@ -123,14 +125,14 @@ this is how you listen to komando specific events:
 every event has event-specific properties attached with the event object passed to the function.
 
 #### handlecommand
-gets called after a command has been handled by komando (after action was called).
+gets called after a command has been handled by komando (after action was called). <br/>
 `e.command`: the base command which was handled.
 
 #### displayprint
-gets called after the display has printed a line.
-`e.line`: the DOM object (p) which was added to the display.
+gets called after the display has printed a line. <br/>
+`e.line`: the DOM object (p) which was added to the display. <br/>
 `e.robot`: true if added by komando, false if it the user input
 
 #### historyadd
-gets called after a command is added to the history.
+gets called after a command is added to the history. <br/>
 `e.command`: the base command which was handled.
