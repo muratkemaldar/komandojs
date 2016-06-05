@@ -1,8 +1,5 @@
 /**
-* komandoJS @muri5
-* TODO:
-* - extend options
-* - "contains" property
+* komandoJS @muratkemaldar
 */
 
 const komando = {
@@ -38,8 +35,7 @@ const komando = {
 	// state properties set on runtime
 	state: {
 		commandsEntered: false,
-		numberOfCommandsEntered: 0,
-		commandHistory: [],
+		numberOfCommandsEntered: 0
 	},
 
 	history: {
@@ -48,7 +44,7 @@ const komando = {
 		add(command) {
 			this.commands.unshift(command);
 			this.cursor = undefined;
-			komando.triggerEvent('historyadd');
+			komando.triggerEvent('historyadd', {command: command});
 		},
 		navigate(direction) {
 			if (this.commands.length === 0) return;
@@ -105,14 +101,17 @@ const komando = {
 				this.input.focus();
 			}
 		} else {
-			warning('input not found');
+			if (console) {
+				console.warn('input not found, you need a DOM element in komando.init({...}).')
+			}
 		}
 
 		// init display
 		if (initParams.display) {
 			this.display.panel = initParams.display;
-			if (this.display.panel === undefined) {
-				warning('display not found');
+		} else {
+			if (console) {
+				console.warn('display not found, you need a DOM element in komando.init({...}).')
 			}
 		}
 
@@ -121,7 +120,7 @@ const komando = {
 			initParams.callback();
 		}
 
-		console.log(komando);
+		// console.log(komando);
 	},
 
 	handleCommand(command){
@@ -186,10 +185,6 @@ const komando = {
 	on(event, callback) {
 		window.addEventListener(event, callback);
 	},
-}
-
-const warning = function(content){
-	console.warn(content);
 }
 
 window.komando = komando;

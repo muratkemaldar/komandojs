@@ -1,10 +1,7 @@
 'use strict';
 
 /**
-* komandoJS @muri5
-* TODO:
-* - extend options
-* - "contains" property
+* komandoJS @muratkemaldar
 */
 
 var komando = {
@@ -45,8 +42,7 @@ var komando = {
 	// state properties set on runtime
 	state: {
 		commandsEntered: false,
-		numberOfCommandsEntered: 0,
-		commandHistory: []
+		numberOfCommandsEntered: 0
 	},
 
 	history: {
@@ -55,7 +51,7 @@ var komando = {
 		add: function add(command) {
 			this.commands.unshift(command);
 			this.cursor = undefined;
-			komando.triggerEvent('historyadd');
+			komando.triggerEvent('historyadd', { command: command });
 		},
 		navigate: function navigate(direction) {
 			if (this.commands.length === 0) return;
@@ -117,14 +113,17 @@ var komando = {
 				this.input.focus();
 			}
 		} else {
-			warning('input not found');
+			if (console) {
+				console.warn('input not found, you need a DOM element in komando.init({...}).');
+			}
 		}
 
 		// init display
 		if (initParams.display) {
 			this.display.panel = initParams.display;
-			if (this.display.panel === undefined) {
-				warning('display not found');
+		} else {
+			if (console) {
+				console.warn('display not found, you need a DOM element in komando.init({...}).');
 			}
 		}
 
@@ -133,7 +132,7 @@ var komando = {
 			initParams.callback();
 		}
 
-		console.log(komando);
+		// console.log(komando);
 	},
 	handleCommand: function handleCommand(command) {
 
@@ -223,10 +222,6 @@ var komando = {
 	on: function on(event, callback) {
 		window.addEventListener(event, callback);
 	}
-};
-
-var warning = function warning(content) {
-	console.warn(content);
 };
 
 window.komando = komando;
