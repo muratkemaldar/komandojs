@@ -2,7 +2,10 @@
   background: black;
   color: #888;
   padding: 10px;
-  min-height: 320px;
+  min-height: 240px;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .komando-display.active{
@@ -41,6 +44,7 @@
   width: 100%;
   max-width: 100%;
   border: 0;
+  border-radius: 0px;
   outline: 0;
   padding: 10px 10px;
   font-size: 1em;

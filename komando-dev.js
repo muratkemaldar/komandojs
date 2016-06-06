@@ -27,6 +27,7 @@ var komando = {
 			line.className = 'line ' + lineClass + " " + (robot ? 'robot' : 'user');
 			line.innerHTML = content;
 			this.panel.appendChild(line);
+			this.panel.scrollTop = this.panel.scrollHeight; // to scroll to bottom
 			this.mostRecentLine = line;
 			komando.input.value = '';
 			komando.triggerEvent('displayprint', { line: line, robot: robot });
